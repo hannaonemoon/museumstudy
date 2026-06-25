@@ -4,7 +4,9 @@
 
 async function startExperiment() {
   const jsPsych = initJsPsych({
+        override_safe_mode: true,
     on_finish: async function() {
+      
       const trialData = jsPsych.data.get().last(1).values()[0].retrieval_data;
       
       // 1. Generate unique participant ID
