@@ -21,6 +21,7 @@ function isExhibitionArtwork(art) {
 
 async function startExperiment() {
   const jsPsych = initJsPsych({
+    override_safe_mode: true,
     on_finish: async function () {
       // Gather data: we have recognition tasks, and some timeline tasks.
       // We will loop through the recognition tasks, and for those that are recognized,
