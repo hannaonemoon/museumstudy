@@ -601,8 +601,12 @@ async function startExperiment() {
   // Add the initial pages before moving on to the task
   mainTimeline.push(participant_id_trial, date_trial, ra_name_trial);
 
+  const realArtworks = artworks.filter(art => art.image_type === true);
+  const lastRealArtwork = realArtworks[realArtworks.length - 1];
+
   artworks.forEach((art, index) => {
-    const isLast = (index === artworks.length - 1);
+    const isReal = art.image_type === true;
+    const isLastReal = art === lastRealArtwork;
 
     const recognition_confidence_trial = {
       type: jsPsychRecognitionTask,
@@ -614,51 +618,57 @@ async function startExperiment() {
       }
     };
 
-    const relative_duration_trial = {
-      type: jsPsychRecognitionTask,
-      image: art.image_url,
-      image_filter: art.filter,
-      phase: 'duration',
-      data: {
-        artwork_index: index
-      }
-    };
-
-    const timeline_trial = {
-      type: jsPsychTimelineTask,
-      image: art.image_url,
-      image_filter: art.filter,
-      is_last_artwork: isLast,
-      data: {
-        artwork_index: index
-      }
-    };
-
-    const if_node = {
-      timeline: [relative_duration_trial, timeline_trial],
-      conditional_function: function () {
-        const lastData = jsPsych.data.get().last(1).values()[0];
-        if (lastData && lastData.recognized) {
-          return true;
-        } else {
-          return false;
+    // Temporal memory trials (relative duration + timeline) are only for Real images
+    if (isReal) {
+      const relative_duration_trial = {
+        type: jsPsychRecognitionTask,
+        image: art.image_url,
+        image_filter: art.filter,
+        phase: 'duration',
+        data: {
+          artwork_index: index
         }
-      }
-    };
+      };
 
-    mainTimeline.push(recognition_confidence_trial, if_node);
+      const timeline_trial = {
+        type: jsPsychTimelineTask,
+        image: art.image_url,
+        image_filter: art.filter,
+        is_last_artwork: isLastReal,
+        data: {
+          artwork_index: index
+        }
+      };
+
+      const if_node = {
+        timeline: [relative_duration_trial, timeline_trial],
+        conditional_function: function () {
+          const lastData = jsPsych.data.get().last(1).values()[0];
+          if (lastData && lastData.recognized) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      };
+
+      mainTimeline.push(recognition_confidence_trial, if_node);
+    } else {
+      mainTimeline.push(recognition_confidence_trial);
+    }
   });
 
   // Now, add the completion instruction page!
   mainTimeline.push(completion_instruction_trial);
 
-  // Now, add the conditional cued recall trials for each artwork!
-  artworks.forEach((art, index) => {
+  // Now, add the conditional cued recall trials for Real images only!
+  realArtworks.forEach((art, index) => {
+    const artworkIndex = artworks.indexOf(art);
     const recall_trial = {
       type: CuedRecallPlugin,
       image: art.image_url,
       image_filter: art.filter,
-      artwork_index: index
+      artwork_index: artworkIndex
     };
 
     const conditional_recall_node = {
