@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTURE Experiment</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: #ffffff;
+            --panel-bg: #fdfdfd;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --accent: #7c3aed;
+            --accent-glow: rgba(124, 58, 237, 0.15);
+            --glass-blur: none;
+            --font-main: 'Google Sans Flex', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-container {
+            text-align: center;
+            padding: 60px 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .menu-container h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .menu-container .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 60px;
+        }
+
+        .task-cards {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .task-card {
+            background: var(--panel-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px 32px;
+            flex: 1 1 260px;
+            max-width: 300px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .task-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 40px rgba(124, 58, 237, 0.1);
+        }
+
+        .task-card .card-icon {
+            font-size: 1.75rem;
+            margin-bottom: 18px;
+        }
+
+        .task-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .task-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-container">
+        <h1>CAPTURE</h1>
+        <p class="subtitle">Museum tour memory experiment</p>
+
+        <div class="task-cards">
+            <a href="task-recognition.html" class="task-card">
+                <div class="card-icon">🖼️</div>
+                <h2>Memory Task</h2>
+                <p>Identify artworks, rate your observation time, and reconstruct your tour sequence.</p>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

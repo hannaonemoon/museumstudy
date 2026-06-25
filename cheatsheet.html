@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTURE Data Schema Cheatsheet</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #6366f1;
+            --primary-light: #e0e7ff;
+            --border-color: #e2e8f0;
+            --font-main: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 30px;
+        }
+
+        .header-title h1 {
+            margin: 0 0 8px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .header-title p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .print-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .print-btn:hover {
+            background-color: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--bg-color);
+            font-weight: 600;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-type {
+            font-family: monospace;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .tip-box {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 40px;
+            font-size: 0.95rem;
+            color: #312e81;
+        }
+
+        .tip-box strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        /* Print Media Styles */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-title">
+            <h1>CAPTURE Task</h1>
+            <p>Trial-by-Trial (Long Format) Data Schema Cheatsheet</p>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Save as PDF
+        </button>
+    </div>
+
+    <h2>📊 Participant & Metadata Columns</h2>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">These columns are appended to <strong>every row</strong> in the dataset to simplify multi-subject analysis and database merging.</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Column Header</th>
+                <th style="width: 15%;">Data Type</th>
+                <th>Description & Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>participant_id</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>Unique identifier for the participant. Entered on the first setup screen.</td>
+            </tr>
+            <tr>
+                <td><strong>session_date</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The date of the session (YYYY-MM-DD format). Selected on the second setup screen.</td>
+            </tr>
+            <tr>
+                <td><strong>ra_name</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The name of the Research Assistant running the test. Entered on the third setup screen.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>⏱️ Standard jsPsych Temporal & Event Columns</h2>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">Standard columns generated automatically by jsPsych to track chronology, durations, stimuli, and keystrokes.</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Column Header</th>
+                <th style="width: 15%;">Data Type</th>
+                <th>Description & Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>trial_index</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Sequential index tracking the exact chronological order of screens/events (starts at 0).</td>
+            </tr>
+            <tr>
+                <td><strong>trial_type</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The plugin module name (e.g. <code>participant-id-input</code>, <code>recognition-task</code>, <code>timeline-task</code>).</td>
+            </tr>
+            <tr>
+                <td><strong>time_elapsed</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Cumulative milliseconds from the very start of the experiment until this trial completed.</td>
+            </tr>
+            <tr>
+                <td><strong>rt</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Reaction time (milliseconds) from screen load to participant submission/click.</td>
+            </tr>
+            <tr>
+                <td><strong>stimulus</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The text shown to the user or the local asset file path of the artwork presented.</td>
+            </tr>
+            <tr>
+                <td><strong>response</strong></td>
+                <td><span class="badge-type">String/Int</span></td>
+                <td>The raw button selection, text entered, or placement coordinates/seconds submitted.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>🧠 Custom Experimental Columns (Conditional)</h2>
+    <p style="color: var(--text-muted); margin-bottom: 20px;">Dynamic columns populated depending on the trial type. Rows belonging to other trials will show empty/null values here.</p>
+    
+    <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin: 24px 0 10px 0;">Recognition Tasks (<code>trial_type: recognition-task</code>)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Column Header</th>
+                <th style="width: 15%;">Data Type</th>
+                <th>Description & Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>image_id</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The local path of the artwork image.</td>
+            </tr>
+            <tr>
+                <td><strong>recognized</strong></td>
+                <td><span class="badge-type">Boolean</span></td>
+                <td><code>true</code> if recognized ("Definitely yes" / "Maybe yes"); <code>false</code> if unrecognized.</td>
+            </tr>
+            <tr>
+                <td><strong>recognition_confidence</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>Exact rating value: <code>"Definitely yes"</code>, <code>"Maybe yes"</code>, <code>"Maybe no"</code>, or <code>"Definitely no"</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>relative_duration</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>Observation time rating relative to the average (e.g. <code>"Much less"</code>, <code>"About the same"</code>, <code>"Much more"</code>).</td>
+            </tr>
+            <tr>
+                <td><strong>rt_recognition</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Reaction time (ms) for the initial recognition choice screen.</td>
+            </tr>
+            <tr>
+                <td><strong>rt_phase2</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Reaction time (ms) for the confidence and duration rating screen (if recognized).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin: 30px 0 10px 0;">Timeline Tasks (<code>trial_type: timeline-task</code>)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Column Header</th>
+                <th style="width: 15%;">Data Type</th>
+                <th>Description & Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>timeline_position_sec</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Relative time placement on the 45-minute gallery timeline, snapped to seconds.</td>
+            </tr>
+            <tr>
+                <td><strong>estimated_duration_sec</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>The estimated duration of the event (defaults to <code>null</code>).</td>
+            </tr>
+            <tr>
+                <td><strong>rt_timeline</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>Reaction time (ms) from timeline screen onset to the placement click.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin: 30px 0 10px 0;">Cued Recall Tasks (<code>trial_type: cued-recall-task</code>)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Column Header</th>
+                <th style="width: 15%;">Data Type</th>
+                <th>Description & Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>artwork_index</strong></td>
+                <td><span class="badge-type">Integer</span></td>
+                <td>The list order index (0 to 4) mapping back to the chronological artwork sequence.</td>
+            </tr>
+            <tr>
+                <td><strong>cued_recall_response</strong></td>
+                <td><span class="badge-type">String</span></td>
+                <td>The participant's typed descriptions or descriptions of what they recall about the artwork.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
