@@ -598,13 +598,35 @@ async function startExperiment() {
   // Create timeline based on fetched artworks
   const mainTimeline = [];
 
+  // Collect all image URLs for preloading
+  const allImages = artworks.map(art => art.image_url);
+
+  // Preload all images
+  mainTimeline.push({
+    type: jsPsychPreload,
+    images: allImages,
+  });
+  mainTimeline.push({
+    type: jsPsychPreload,
+    auto_preload: true,
+    show_detailed_errors: true,
+  });
+
   // Add the initial pages before moving on to the task
   mainTimeline.push(participant_id_trial, date_trial, ra_name_trial);
 
   const realArtworks = artworks.filter(art => art.image_type === true);
   const lastRealArtwork = realArtworks[realArtworks.length - 1];
 
-  artworks.forEach((art, index) => {
+  // Randomize presentation order of images for the recognition task
+  const shuffledArtworks = artworks.slice();
+  for (let i = shuffledArtworks.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArtworks[i], shuffledArtworks[j]] = [shuffledArtworks[j], shuffledArtworks[i]];
+  }
+
+  shuffledArtworks.forEach((art) => {
+    const index = artworks.indexOf(art);
     const isReal = art.image_type === true;
     const isLastReal = art === lastRealArtwork;
 
