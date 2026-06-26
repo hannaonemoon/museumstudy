@@ -66,10 +66,12 @@ var jsPsychRecognitionTask = (function (jspsych) {
               <div class="question-container" id="phase1-container">
                 <h2>Was this artwork part of the exhibition?</h2>
                 <div class="button-group">
-                  <button class="btn btn-choice" data-type="no" data-choice="Definitely no">Definitely no</button>
-                  <button class="btn btn-choice" data-type="no" data-choice="Maybe no">Maybe no</button>
-                  <button class="btn btn-choice" data-type="yes" data-choice="Maybe yes">Maybe yes</button>
-                  <button class="btn btn-choice" data-type="yes" data-choice="Definitely yes">Definitely yes</button>
+                  <button class="btn btn-choice" data-type="no" data-choice="Definitely NO">Definitely<br>NO</button>
+                   <button class="btn btn-choice" data-type="no" data-choice="Probably NO">Probably<br>NO</button>
+                  <button class="btn btn-choice" data-type="no" data-choice="Maybe NO">Maybe<br>NO</button>
+                  <button class="btn btn-choice" data-type="yes" data-choice="Maybe YES">Maybe<br>YES</button>
+                   <button class="btn btn-choice" data-type="yes" data-choice="Probably YES">Probably<br>YES</button>
+                  <button class="btn btn-choice" data-type="yes" data-choice="Definitely YES">Definitely<br>YES</button>
                 </div>
               </div>
             </div>
