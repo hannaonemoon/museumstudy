@@ -595,6 +595,18 @@ async function startExperiment() {
     { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false }
   ];
 
+  // Fisher-Yates shuffle (randomize array in place)
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Randomize artworks across both conditions (Real and Lure mixed together)
+  shuffle(artworks);
+
   // Create timeline based on fetched artworks
   const mainTimeline = [];
 
@@ -662,7 +674,9 @@ async function startExperiment() {
   mainTimeline.push(completion_instruction_trial);
 
   // Now, add the conditional cued recall trials for Real images only!
-  realArtworks.forEach((art, index) => {
+  // Randomize the order of real images for cued recall
+  const shuffledRealArtworks = shuffle([...realArtworks]);
+  shuffledRealArtworks.forEach((art, index) => {
     const artworkIndex = artworks.indexOf(art);
     const recall_trial = {
       type: CuedRecallPlugin,

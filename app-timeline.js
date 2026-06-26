@@ -86,6 +86,18 @@ async function startExperiment() {
     { id: 5, image_url: 'assets/sample-art.png', title: 'Local Art 5' }
   ];
 
+  // Fisher-Yates shuffle (randomize array in place)
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Randomize the order of artworks
+  shuffle(artworks);
+
   // Map Supabase data to the format expected by the plugin
   // We pass the URL as the IMAGE parameter
   const imagePaths = artworks.map(art => art.image_url);
