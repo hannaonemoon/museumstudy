@@ -39,6 +39,9 @@ var jsPsychTimelineTask = (function (jspsych) {
     }
 
     trial(display_element, trial) {
+      // Store trial for use in endTrial
+      this.trial = trial;
+
       // Logic variables
       this.placedItems = new Map(); // id -> { id, element, timeSec, durationSec }
       this.totalSecs = trial.timeline_duration_minutes * 60;
@@ -196,7 +199,7 @@ var jsPsychTimelineTask = (function (jspsych) {
 
       this.placedItems.forEach((val) => {
         responseData.response = val.timeSec;
-        responseData.image_id = val.id;
+        responseData.image_id = this.trial.image;
         responseData.timeline_position_sec = val.timeSec;
         responseData.estimated_duration_sec = val.durationSec;
         responseData.rt_timeline = this.firstDropRt || Math.round(performance.now() - this.startTime);
