@@ -111,7 +111,7 @@ var jsPsychRecognitionTask = (function (jspsych) {
       const responseData = {
         stimulus: this.trial.image,
         response: confidence || duration,
-        rt: Math.round(performance.now() - this.startTime),
+        rt:  rt_recognition || rt_phase2,
         image_id: this.trial.image,
         recognized: recognized,
         recognition_confidence: confidence,
