@@ -662,7 +662,15 @@ async function startExperiment() {
   mainTimeline.push(completion_instruction_trial);
 
   // Now, add the conditional cued recall trials for Real images only!
-  realArtworks.forEach((art, index) => {
+  // Show only artworks reported as seen for longer than average, in random order.
+  // Shuffle a copy of realArtworks for random cued recall presentation order.
+  const shuffledRealArtworks = realArtworks.slice();
+  for (let i = shuffledRealArtworks.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledRealArtworks[i], shuffledRealArtworks[j]] = [shuffledRealArtworks[j], shuffledRealArtworks[i]];
+  }
+
+  shuffledRealArtworks.forEach((art) => {
     const artworkIndex = artworks.indexOf(art);
     const recall_trial = {
       type: CuedRecallPlugin,
@@ -674,10 +682,12 @@ async function startExperiment() {
     const conditional_recall_node = {
       timeline: [recall_trial],
       conditional_function: function() {
-        // Find if this specific artwork was recognized by filtering by image_id
+        // Check if artwork was recognized AND reported as seen for longer than average
         const artTrials = jsPsych.data.get().filter({ image_id: art.image_url, trial_type: 'recognition-task' }).values();
         const recognizedTrial = artTrials.find(t => t.recognized === true);
-        return !!recognizedTrial;
+        const durationTrial = artTrials.find(t => t.relative_duration !== null && t.relative_duration !== undefined);
+        const aboveAverage = durationTrial && (durationTrial.relative_duration === 'Little more' || durationTrial.relative_duration === 'Much more');
+        return !!recognizedTrial && !!aboveAverage;
       }
     };
 
