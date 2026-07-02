@@ -16,6 +16,11 @@ function isExhibitionArtwork(art) {
     return false;
   }
 
+  // Test trials: determine by image_type property
+  if (art.image_url.startsWith('test_trials/')) {
+    return art.image_type === true;
+  }
+
   return true; // fallback
 }
 
@@ -592,7 +597,10 @@ async function startExperiment() {
     { id: 93, image_url: 'assets/Lure/Toledo_1of1_Lure_Small.png', title: 'Toledo 1of1', filter: 'none', image_type: false },
     { id: 94, image_url: 'assets/Lure/Yahuaracani_1of3_Lure_Small.png', title: 'Yahuaracani 1of3', filter: 'none', image_type: false },
     { id: 95, image_url: 'assets/Lure/Yahuaracani_3of3_Lure_Small.png', title: 'Yahuaracani 3of3', filter: 'none', image_type: false },
-    { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false }
+    { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false },
+    // Test Trials
+    { id: 97, image_url: 'test_trials/testImage1.png', title: 'Test Image 1', filter: 'none', image_type: true },
+    { id: 98, image_url: 'test_trials/testImage2.png', title: 'Test Image 2', filter: 'none', image_type: false }
   ];
 
   // Create timeline based on fetched artworks
