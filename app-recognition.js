@@ -421,7 +421,7 @@ async function startExperiment() {
         <div class="recognition-task-container">
           <div class="question-container" style="max-width: 600px;">
             <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">Please wait for task instructions from the researcher.</h2>
-            <input type="text" id="input-field" class="btn" style="background:#ffffff; border: 1px solid var(--border-color); color:var(--text-main); font-size:1.1rem; padding:10px; width:100%; text-align:center; box-sizing:border-box; margin-bottom:20px; box-shadow: none; cursor: text; font-family: var(--font-main);" placeholder="Type 'start' to continue" required>
+            <input type="text" id="input-field" class="btn" style="background:#ffffff; border: 1px solid var(--border-color); color:var(--text-main); font-size:1.1rem; padding:10px; width:100%; text-align:center; box-sizing:border-box; margin-bottom:20px; box-shadow: none; cursor: text; font-family: var(--font-main);" placeholder="" required>
             <button id="next-btn" class="btn" style="min-width:120px;">Next</button>
           </div>
         </div>
