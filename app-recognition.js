@@ -316,6 +316,10 @@ async function startExperiment() {
           alert('Please enter Participant ID');
           return;
         }
+        if (!val.startsWith('P')) {
+          alert('Participant ID must start with "P"');
+          return;
+        }
         display_element.innerHTML = '';
         this.jsPsych.finishTrial({
           participant_id: val,
