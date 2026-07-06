@@ -650,8 +650,8 @@ async function startExperiment() {
     { id: 95, image_url: 'assets/Lure/Yahuaracani_3of3_Lure_Small.png', title: 'Yahuaracani 3of3', filter: 'none', image_type: false },
     { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false },
     // Test Trials
-    { id: 97, image_url: 'test_trials/testImage1.png', title: 'Test Image 1', filter: 'none', image_type: true },
-    { id: 98, image_url: 'test_trials/testImage2.png', title: 'Test Image 2', filter: 'none', image_type: false }
+    { id: 97, image_url: 'test_trials/test_lure.png', title: 'testImage_Lure', filter: 'none', image_type: null },
+    { id: 98, image_url: 'test_trials/test_real.png', title: 'testImage_Real', filter: 'none', image_type: null }
   ];
 
   // Create timeline based on fetched artworks
