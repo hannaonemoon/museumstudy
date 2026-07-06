@@ -119,6 +119,7 @@ async function startExperiment() {
           if (trial.trial_type === 'participant-id-input' || 
               trial.trial_type === 'session-date-input' || 
               trial.trial_type === 'ra-name-input' ||
+              trial.trial_type === 'wait-for-start' ||
               trial.trial_type === 'completion-instruction') {
             
             // Keep setup/instruction trials as a single row
@@ -410,6 +411,46 @@ async function startExperiment() {
   }
   RaNamePlugin.info = { name: 'ra-name-input', parameters: {} };
 
+  class WaitForStartPlugin {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    trial(display_element, trial) {
+      const startTime = performance.now();
+      display_element.innerHTML = `
+        <div class="recognition-task-container">
+          <div class="question-container" style="max-width: 600px;">
+            <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">Please wait for task instructions from the researcher.</h2>
+            <input type="text" id="input-field" class="btn" style="background:#ffffff; border: 1px solid var(--border-color); color:var(--text-main); font-size:1.1rem; padding:10px; width:100%; text-align:center; box-sizing:border-box; margin-bottom:20px; box-shadow: none; cursor: text; font-family: var(--font-main);" placeholder="Type 'start' to continue" required>
+            <button id="next-btn" class="btn" style="min-width:120px;">Next</button>
+          </div>
+        </div>
+      `;
+      const nextBtn = display_element.querySelector('#next-btn');
+      const input = display_element.querySelector('#input-field');
+      input.focus();
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && input.value.trim().toLowerCase() === 'start') {
+          nextBtn.click();
+        }
+      });
+      nextBtn.addEventListener('click', () => {
+        const val = input.value.trim().toLowerCase();
+        if (val !== 'start') {
+          alert('Please type "start" to continue.');
+          return;
+        }
+        display_element.innerHTML = '';
+        this.jsPsych.finishTrial({
+          stimulus: "Please wait for task instructions from the researcher.",
+          response: "start",
+          rt: Math.round(performance.now() - startTime)
+        });
+      });
+    }
+  }
+  WaitForStartPlugin.info = { name: 'wait-for-start', parameters: {} };
+
   class CompletionInstructionPlugin {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
@@ -494,6 +535,10 @@ async function startExperiment() {
 
   const ra_name_trial = {
     type: RaNamePlugin
+  };
+
+  const wait_for_start_trial = {
+    type: WaitForStartPlugin
   };
 
   const completion_instruction_trial = {
@@ -621,7 +666,7 @@ async function startExperiment() {
   });
 
   // Add the initial pages before moving on to the task
-  mainTimeline.push(participant_id_trial, date_trial, ra_name_trial);
+  mainTimeline.push(participant_id_trial, date_trial, ra_name_trial, wait_for_start_trial);
 
   const realArtworks = artworks.filter(art => art.image_type === true);
   const lastRealArtwork = realArtworks[realArtworks.length - 1];
