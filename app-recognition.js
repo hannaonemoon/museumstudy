@@ -419,20 +419,22 @@ async function startExperiment() {
       display_element.innerHTML = `
         <div class="recognition-task-container">
           <div class="question-container" style="max-width: 600px;">
-            <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">You have now completed this task. Please press the button to move onto the next task.</h2>
-            <button id="next-btn" class="btn" style="min-width: 140px; font-weight: 600;">Next Task</button>
+            <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">You are now finished with the first part of the task. Please wait for further instructions from the researcher.</h2>
           </div>
         </div>
       `;
-      const nextBtn = display_element.querySelector('#next-btn');
-      nextBtn.addEventListener('click', () => {
-        display_element.innerHTML = '';
-        this.jsPsych.finishTrial({
-          stimulus: "You have now completed this task. Please press the button to move onto the next task.",
-          response: "Next Task",
-          rt: Math.round(performance.now() - startTime)
-        });
-      });
+      const handleKeyPress = (e) => {
+        if (e.key === 'x' || e.key === 'X') {
+          document.removeEventListener('keydown', handleKeyPress);
+          display_element.innerHTML = '';
+          this.jsPsych.finishTrial({
+            stimulus: "You are now finished with the first part of the task. Please wait for further instructions from the researcher.",
+            response: "X",
+            rt: Math.round(performance.now() - startTime)
+          });
+        }
+      };
+      document.addEventListener('keydown', handleKeyPress);
     }
   }
   CompletionInstructionPlugin.info = { name: 'completion-instruction', parameters: {} };
