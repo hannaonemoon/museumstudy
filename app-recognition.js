@@ -685,8 +685,8 @@ async function startExperiment() {
   ];
 
   const practiceArtworks = [
-    { id: 97, image_url: 'test_trials/test_lure.png', title: 'testImage_Lure', filter: 'none', image_type: false },
-    { id: 98, image_url: 'test_trials/test_real.png', title: 'testImage_Real', filter: 'none', image_type: true }
+    { id: 97, image_url: 'test_trials/test_lure.png', title: 'Practice_Lure', filter: 'none', image_type: false },
+    { id: 98, image_url: 'test_trials/test_real.png', title: 'Practice_Real', filter: 'none', image_type: true }
   ];
 
   // Create timeline based on fetched artworks
