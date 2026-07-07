@@ -513,6 +513,35 @@ async function startExperiment() {
   }
   PracticeIntroPlugin.info = { name: 'practice-intro', parameters: {} };
 
+  class PracticeCompletePlugin {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    trial(display_element, trial) {
+      const startTime = performance.now();
+      display_element.innerHTML = `
+        <div class="recognition-task-container">
+          <div class="question-container" style="max-width: 700px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
+            <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">Now we are finished with the practice trials. To begin the task, press begin.</h2>
+            <div style="display: flex; justify-content: flex-end;">
+              <button id="begin-btn" class="btn" style="min-width: 140px;">begin</button>
+            </div>
+          </div>
+        </div>
+      `;
+      const beginBtn = display_element.querySelector('#begin-btn');
+      beginBtn.addEventListener('click', () => {
+        display_element.innerHTML = '';
+        this.jsPsych.finishTrial({
+          stimulus: "Now we are finished with the practice trials. To begin the task, press begin.",
+          response: "begin",
+          rt: Math.round(performance.now() - startTime)
+        });
+      });
+    }
+  }
+  PracticeCompletePlugin.info = { name: 'practice-complete', parameters: {} };
+
   class CuedRecallPlugin {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
@@ -582,6 +611,10 @@ async function startExperiment() {
 
   const practice_intro_trial = {
     type: PracticeIntroPlugin
+  };
+
+  const practice_complete_trial = {
+    type: PracticeCompletePlugin
   };
 
   // 4. Local Artworks (Replacing Supabase)
@@ -722,6 +755,8 @@ async function startExperiment() {
 
     mainTimeline.push(practice_confidence_trial);
   });
+
+  mainTimeline.push(practice_complete_trial);
 
   const realArtworks = artworks.filter(art => art.image_type === true);
   const lastRealArtwork = realArtworks[realArtworks.length - 1];
