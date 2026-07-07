@@ -524,7 +524,7 @@ async function startExperiment() {
           <div class="question-container" style="max-width: 700px; min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
             <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">Now we are finished with the practice trials. To begin the task, press begin.</h2>
             <div style="display: flex; justify-content: flex-end;">
-              <button id="begin-btn" class="btn" style="min-width: 140px;">Begin</button>
+              <button id="begin-btn" class="btn" style="min-width: 140px;">begin</button>
             </div>
           </div>
         </div>
