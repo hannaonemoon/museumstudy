@@ -685,8 +685,8 @@ async function startExperiment() {
   ];
 
   const practiceArtworks = [
-    { id: 97, image_url: 'test_trials/test_lure.png', title: 'Practice_Lure', filter: 'none', image_type: false },
-    { id: 98, image_url: 'test_trials/test_real.png', title: 'Practice_Real', filter: 'none', image_type: true }
+    { id: 97, image_url: 'test_trials/test_lure.png', title: 'practice_lure', filter: 'none', image_type: false },
+    { id: 98, image_url: 'test_trials/test_real.png', title: 'practice_real', filter: 'none', image_type: true }
   ];
 
   // Create timeline based on fetched artworks
@@ -710,7 +710,7 @@ async function startExperiment() {
   mainTimeline.push(participant_id_trial, date_trial, ra_name_trial, wait_for_start_trial, practice_intro_trial);
 
   practiceArtworks.forEach((art) => {
-    const practice_recognition_trial = {
+    const practice_confidence_trial = {
       type: jsPsychRecognitionTask,
       image: art.image_url,
       image_filter: art.filter,
@@ -720,7 +720,7 @@ async function startExperiment() {
       }
     };
 
-    mainTimeline.push(practice_recognition_trial);
+    mainTimeline.push(practice_confidence_trial);
   });
 
   const realArtworks = artworks.filter(art => art.image_type === true);
