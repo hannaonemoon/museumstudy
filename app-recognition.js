@@ -484,6 +484,35 @@ async function startExperiment() {
   }
   CompletionInstructionPlugin.info = { name: 'completion-instruction', parameters: {} };
 
+  class PracticeIntroPlugin {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    trial(display_element, trial) {
+      const startTime = performance.now();
+      display_element.innerHTML = `
+        <div class="recognition-task-container">
+          <div class="question-container" style="max-width: 700px;">
+            <h2 style="margin-bottom: 30px; font-weight: normal; line-height: 1.6;">Now we will begin the practice trials. When you are ready, press continue.</h2>
+            <div style="display: flex; justify-content: flex-end;">
+              <button id="continue-btn" class="btn" style="min-width: 140px;">Continue</button>
+            </div>
+          </div>
+        </div>
+      `;
+      const continueBtn = display_element.querySelector('#continue-btn');
+      continueBtn.addEventListener('click', () => {
+        display_element.innerHTML = '';
+        this.jsPsych.finishTrial({
+          stimulus: "Now we will begin the practice trials. When you are ready, press continue.",
+          response: "continue",
+          rt: Math.round(performance.now() - startTime)
+        });
+      });
+    }
+  }
+  PracticeIntroPlugin.info = { name: 'practice-intro', parameters: {} };
+
   class CuedRecallPlugin {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
@@ -549,6 +578,10 @@ async function startExperiment() {
 
   const completion_instruction_trial = {
     type: CompletionInstructionPlugin
+  };
+
+  const practice_intro_trial = {
+    type: PracticeIntroPlugin
   };
 
   // 4. Local Artworks (Replacing Supabase)
@@ -648,17 +681,19 @@ async function startExperiment() {
     { id: 93, image_url: 'assets/Lure/Toledo_1of1_Lure_Small.png', title: 'Toledo 1of1', filter: 'none', image_type: false },
     { id: 94, image_url: 'assets/Lure/Yahuaracani_1of3_Lure_Small.png', title: 'Yahuaracani 1of3', filter: 'none', image_type: false },
     { id: 95, image_url: 'assets/Lure/Yahuaracani_3of3_Lure_Small.png', title: 'Yahuaracani 3of3', filter: 'none', image_type: false },
-    { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false },
-    // Test Trials
-    { id: 97, image_url: 'test_trials/test_lure.png', title: 'testImage_Lure', filter: 'none', image_type: null },
-    { id: 98, image_url: 'test_trials/test_real.png', title: 'testImage_Real', filter: 'none', image_type: null }
+    { id: 96, image_url: 'assets/Lure/deBaca_1of1_Lure_Small.png', title: 'deBaca 1of1', filter: 'none', image_type: false }
+  ];
+
+  const practiceArtworks = [
+    { id: 97, image_url: 'test_trials/test_lure.png', title: 'testImage_Lure', filter: 'none', image_type: false },
+    { id: 98, image_url: 'test_trials/test_real.png', title: 'testImage_Real', filter: 'none', image_type: true }
   ];
 
   // Create timeline based on fetched artworks
   const mainTimeline = [];
 
   // Collect all image URLs for preloading
-  const allImages = artworks.map(art => art.image_url);
+  const allImages = artworks.map(art => art.image_url).concat(practiceArtworks.map(art => art.image_url));
 
   // Preload all images
   mainTimeline.push({
@@ -672,7 +707,21 @@ async function startExperiment() {
   });
 
   // Add the initial pages before moving on to the task
-  mainTimeline.push(participant_id_trial, date_trial, ra_name_trial, wait_for_start_trial);
+  mainTimeline.push(participant_id_trial, date_trial, ra_name_trial, wait_for_start_trial, practice_intro_trial);
+
+  practiceArtworks.forEach((art) => {
+    const practice_recognition_trial = {
+      type: jsPsychRecognitionTask,
+      image: art.image_url,
+      image_filter: art.filter,
+      phase: 'confidence',
+      data: {
+        is_practice: true
+      }
+    };
+
+    mainTimeline.push(practice_recognition_trial);
+  });
 
   const realArtworks = artworks.filter(art => art.image_type === true);
   const lastRealArtwork = realArtworks[realArtworks.length - 1];
