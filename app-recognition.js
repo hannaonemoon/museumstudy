@@ -754,6 +754,30 @@ async function startExperiment() {
     };
 
     mainTimeline.push(practice_confidence_trial);
+
+    if (art.image_type === true) {
+      const practice_duration_trial = {
+        type: jsPsychRecognitionTask,
+        image: art.image_url,
+        image_filter: art.filter,
+        phase: 'duration',
+        data: {
+          is_practice: true
+        }
+      };
+
+      const practice_timeline_trial = {
+        type: jsPsychTimelineTask,
+        image: art.image_url,
+        image_filter: art.filter,
+        is_last_artwork: false,
+        data: {
+          is_practice: true
+        }
+      };
+
+      mainTimeline.push(practice_duration_trial, practice_timeline_trial);
+    }
   });
 
   mainTimeline.push(practice_complete_trial);
