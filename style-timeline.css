@@ -217,11 +217,6 @@ body {
   color: var(--text-muted);
 }
 
-/* Hover Tooltip on Timeline (hidden) */
-#hover-tooltip {
-  display: none;
-}
-
 /* Markers */
 .timeline-marker {
   width: 32px;

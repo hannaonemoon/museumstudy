@@ -69,7 +69,6 @@ var jsPsychTimelineTask = (function (jspsych) {
                 <div class="timeline-track"></div>
                 <div class="timeline-ticks" id="timeline-ticks"></div>
                 <div class="timeline-dropzone" id="timeline-dropzone"></div>
-                <div id="hover-tooltip">00:00</div>
               </div>
             </div>
           </div>
@@ -82,7 +81,6 @@ var jsPsychTimelineTask = (function (jspsych) {
       this.singleArtContainer = display_element.querySelector('#single-art-container');
       this.timelineContainer = display_element.querySelector('#timeline-track-container');
       this.dropzone = display_element.querySelector('#timeline-dropzone');
-      this.tooltip = display_element.querySelector('#hover-tooltip');
       this.ticksContainer = display_element.querySelector('#timeline-ticks');
       this.finishBtn = display_element.querySelector('#finish-btn');
 
@@ -156,12 +154,6 @@ var jsPsychTimelineTask = (function (jspsych) {
 
         this.checkCompletion();
       });
-    }
-
-    formatTime(totSeconds) {
-      let m = Math.floor(totSeconds / 60);
-      let s = Math.floor(totSeconds % 60);
-      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
     checkCompletion() {
