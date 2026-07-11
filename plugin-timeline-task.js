@@ -111,22 +111,7 @@ var jsPsychTimelineTask = (function (jspsych) {
     }
 
     setupInteractionHandlers(incrementSecs) {
-      // Timeline Dropzone Hover & Click mechanics
-      this.dropzone.addEventListener('mousemove', (e) => {
-        let rawPercent = e.offsetX / this.dropzone.offsetWidth;
-        if(rawPercent < 0) rawPercent = 0; if(rawPercent > 1) rawPercent = 1;
-        
-        let seconds = rawPercent * this.totalSecs;
-        let snappedSecs = Math.round(seconds / incrementSecs) * incrementSecs;
-        
-        this.tooltip.style.opacity = '1';
-        this.tooltip.style.left = `${(snappedSecs / this.totalSecs) * 100}%`;
-        this.tooltip.innerText = this.formatTime(snappedSecs);
-      });
-
-      this.dropzone.addEventListener('mouseleave', () => {
-        this.tooltip.style.opacity = '0';
-      });
+      // Timeline Dropzone Click mechanics
 
       this.dropzone.addEventListener('click', (e) => {
         let rawPercent = e.offsetX / this.dropzone.offsetWidth;

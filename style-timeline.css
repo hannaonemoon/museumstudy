@@ -213,24 +213,13 @@ body {
   margin-bottom: 4px;
 }
 .tick span {
-  font-size: 0.56rem;
+  font-size: 1.12rem;
   color: var(--text-muted);
 }
 
-/* Hover Tooltip on Timeline */
+/* Hover Tooltip on Timeline (hidden) */
 #hover-tooltip {
-  position: absolute;
-  background: var(--accent);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.56rem;
-  font-weight: bold;
-  pointer-events: none;
-  transform: translate(-50%, -150%);
-  opacity: 0;
-  transition: opacity 0.1s;
-  z-index: 10;
+  display: none;
 }
 
 /* Markers */
