@@ -98,13 +98,14 @@ var jsPsychTimelineTask = (function (jspsych) {
     }
 
     renderTicks(minutes) {
-      // Render tick marks every 5 minutes
-      for (let m = 0; m <= minutes; m += 5) {
-        let percent = (m / minutes) * 100;
+      // Render 4 tick marks: Beginning, two unlabeled, and End
+      const labels = ['Beginning', '', '', 'End'];
+      for (let i = 0; i < 4; i++) {
+        let percent = (i / 3) * 100;
         let tick = document.createElement('div');
         tick.className = 'tick';
         tick.style.left = `${percent}%`;
-        tick.innerHTML = `<span>${m}:00</span>`;
+        tick.innerHTML = `<span>${labels[i]}</span>`;
         this.ticksContainer.appendChild(tick);
       }
     }
